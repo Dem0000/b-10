@@ -43,39 +43,87 @@
 
 
 
-<?php
 
-setheader();
+
+<?php 
+
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
+$screen = isset($_GET['screen']) ? $_GET['screen'] : 'large';
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    logoutUser(); 
+}
+setheader();
 switch ($page) {
-    
-    case 'contact':
-       
-        if (function_exists($page)) {
-            $page();
-        } else {
-            echo "<h1>Page Not Found</h1>";
+     case 'signup':
+    case 'login':
+        echo "<style>header {background: linear-gradient(to right, #036a96, #00BFFF);} </style>";
+        if ($screen === 'small') {
+            include($page . '.php');
+        } elseif ($screen === 'large') {
+            echo "<div id='register'>";
+            include('signup.php');
+            include('login.php');
+            echo " </div>  ";
         }
         break;
 
-                case 'signup':
-                case 'login':
-                include($page . '.php');
-                break;
-                    
     default:
-   
-
         home();
         break;
 }
-setfooter();
+
+setfooter();  
 ?>
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+    const screenWidth = window.innerWidth;
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = urlParams.get('page') || 'home';
+
+    // Redirect only for signup or login pages
+    if (['signup', 'login'].includes(page)) {
+        if (screenWidth <= 600 && !urlParams.has('screen')) {
+            // Add the screen size parameter for small screens
+            window.location.href = `index.php?page=${page}&screen=small`;
+        } else if (screenWidth > 600 && !urlParams.has('screen')) {
+            // Add the screen size parameter for large screens
+            window.location.href = `index.php?page=${page}&screen=large`;
+        }
+    }
+});
+
+</script>
 
 <script>
     window.addEventListener('scroll', function() {
