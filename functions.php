@@ -2,7 +2,8 @@
 
 $userFile = 'TOPSECRET.txt';
 
-function clearSessionAndStartNew() {
+function clearSessionAndStartNew()
+{
     if (session_status() === PHP_SESSION_ACTIVE) {
         session_destroy();
     }
@@ -17,11 +18,12 @@ function clearSessionAndStartNew() {
  * @param string $filePath
  * @return bool True on success, false if the username exists.
  */
-function addUser($username, $password, $filePath) {
+function addUser($username, $password, $filePath)
+{
     $users = file_exists($filePath) ? file($filePath, FILE_IGNORE_NEW_LINES) : [];
 
     foreach ($users as $user) {
-        list($existingUsername, ) = explode(':', $user);
+        list($existingUsername,) = explode(':', $user);
         if ($existingUsername === $username) {
             return false;
         }
@@ -40,7 +42,8 @@ function addUser($username, $password, $filePath) {
  * @param string $filePath
  * @return bool True if authentication is successful, false otherwise.
  */
-function authenticateUser($username, $password, $filePath) {
+function authenticateUser($username, $password, $filePath)
+{
     $users = file_exists($filePath) ? file($filePath, FILE_IGNORE_NEW_LINES) : [];
 
     foreach ($users as $user) {
@@ -53,7 +56,8 @@ function authenticateUser($username, $password, $filePath) {
     return false;
 }
 
-function logoutUser() {
+function logoutUser()
+{
     session_unset();
     session_destroy();
     header('Location: index.php');
@@ -61,10 +65,9 @@ function logoutUser() {
 }
 
 
-
-
-
-
+$page = isset($_GET['page']) ? $_GET['page'] : 'home';
+$screen = isset($_GET['screen']) ? $_GET['screen'] : 'large';
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    logoutUser();
+}
 ?>
-
-

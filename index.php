@@ -1,9 +1,10 @@
-<?php  include 'data.php' ?>
+<?php include 'data.php' ?>
 <?php include 'functions.php' ?>
 <?php include 'components.php' ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,120 +37,98 @@
 
     <!-- Scripts -->
     <script src="script.js" defer></script>
+
 </head>
 
 <body>
 
+    <?php
 
+    setheader();
+    switch ($page) {
+        case 'signup':
+        case 'login':
+            echo "<style>header {background: linear-gradient(to right, #036a96, #00BFFF);} </style>";
+            if ($screen === 'small') {
+                include($page . '.php');
+            } elseif ($screen === 'large') {
+                echo "<div id='register'>";
+                include('signup.php');
+                include('login.php');
+                echo " </div>  ";
+            }
+            break;
 
-
-
-
-<?php 
-
-$page = isset($_GET['page']) ? $_GET['page'] : 'home';
-$screen = isset($_GET['screen']) ? $_GET['screen'] : 'large';
-if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    logoutUser(); 
-}
-setheader();
-switch ($page) {
-     case 'signup':
-    case 'login':
-        echo "<style>header {background: linear-gradient(to right, #036a96, #00BFFF);} </style>";
-        if ($screen === 'small') {
-            include($page . '.php');
-        } elseif ($screen === 'large') {
-            echo "<div id='register'>";
-            include('signup.php');
-            include('login.php');
-            echo " </div>  ";
-        }
-        break;
-
-    default:
-        home();
-        break;
-}
-
-setfooter();  
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-
-document.addEventListener("DOMContentLoaded", () => {
-    const screenWidth = window.innerWidth;
-    const urlParams = new URLSearchParams(window.location.search);
-    const page = urlParams.get('page') || 'home';
-
-    // Redirect only for signup or login pages
-    if (['signup', 'login'].includes(page)) {
-        if (screenWidth <= 600 && !urlParams.has('screen')) {
-            // Add the screen size parameter for small screens
-            window.location.href = `index.php?page=${page}&screen=small`;
-        } else if (screenWidth > 600 && !urlParams.has('screen')) {
-            // Add the screen size parameter for large screens
-            window.location.href = `index.php?page=${page}&screen=large`;
-        }
+        default:
+            home();
+            break;
     }
-});
 
-</script>
+    setfooter();
+    ?>
 
-<script>
-    window.addEventListener('scroll', function() {
-        const header = document.querySelector('header');
-        
-        
-        if (window.scrollY > 1) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const screenWidth = window.innerWidth;
+            const urlParams = new URLSearchParams(window.location.search);
+            const page = urlParams.get('page') || 'home';
+
+            // Redirect only for signup or login pages
+            if (['signup', 'login'].includes(page)) {
+                if (screenWidth <= 600 && !urlParams.has('screen')) {
+                    // Add the screen size parameter for small screens
+                    window.location.href = `index.php?page=${page}&screen=small`;
+                } else if (screenWidth > 600 && !urlParams.has('screen')) {
+                    // Add the screen size parameter for large screens
+                    window.location.href = `index.php?page=${page}&screen=large`;
+                }
+            }
+        });
+    </script>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+
+
+            if (window.scrollY > 1) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+    <script>
+        function toggleSidebar() {
+            const nav = document.getElementById('main-nav');
+            nav.classList.toggle('active');
         }
+
+        document.querySelectorAll('#main-nav.dropdown a').forEach((link) => {
+        link.addEventListener('click', () => {
+            const nav = document.getElementById('main-nav');
+            nav.classList.remove('active');
+        });
     });
 </script>
+    
+    <script>
+        // Add smooth scroll to all anchor links with hash href
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
 
-<script>
-function toggleSidebar() {
-    const nav = document.getElementById('main-nav');
-    nav.classList.toggle('active');
-}
-</script>
-
-
-
-
-
-
-
+                // Scroll to the target element
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>
