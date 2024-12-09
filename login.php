@@ -3,7 +3,7 @@ require_once 'functions.php';
 
 $message = '';
 $message3 = ''; 
-
+$userFile = 'TOPSECRET.txt';
 
 if (isset($_SESSION['username'])) {
   

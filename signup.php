@@ -4,7 +4,7 @@ require_once 'functions.php';
 
 $message1 = '';
 $message2 = ''; 
-
+$userFile = 'TOPSECRET.txt';
 
 
 

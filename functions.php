@@ -10,14 +10,7 @@ function clearSessionAndStartNew()
     session_start();
 }
 
-/**
- * Adds a new user to the file if the username doesn't already exist.
- *
- * @param string $username
- * @param string $password
- * @param string $filePath
- * @return bool True on success, false if the username exists.
- */
+
 function addUser($username, $password, $filePath)
 {
     $users = file_exists($filePath) ? file($filePath, FILE_IGNORE_NEW_LINES) : [];
@@ -34,14 +27,7 @@ function addUser($username, $password, $filePath)
     return true;
 }
 
-/**
- * Authenticates a user by matching username and password.
- *
- * @param string $username
- * @param string $password
- * @param string $filePath
- * @return bool True if authentication is successful, false otherwise.
- */
+
 function authenticateUser($username, $password, $filePath)
 {
     $users = file_exists($filePath) ? file($filePath, FILE_IGNORE_NEW_LINES) : [];
@@ -65,9 +51,66 @@ function logoutUser()
 }
 
 
+
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 $screen = isset($_GET['screen']) ? $_GET['screen'] : 'large';
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     logoutUser();
 }
+
+
+function generatestars($rating) {
+    $fullstars = floor($rating); 
+    $emptystars = 5 - $fullstars; 
+    
+    $starsHTML = '';
+    for ($i = 0; $i < $fullstars; $i++) {
+        $starsHTML .= "<span class='star'>&#9733;</span>"; 
+    }
+    for ($i = 0; $i < $emptystars; $i++) {
+        $starsHTML .= "<span class='star'>&#9734;</span>"; 
+    }
+    
+    return $starsHTML;
+}
+
+
+
+function Auth($page, $screen) {
+  
+    echo '<link rel="stylesheet" href="styles/gradient.css">';
+    
+    if ($screen === 'small') {
+       
+        include($page . '.php');
+    } elseif ($screen === 'large') {
+        
+        echo "<div id='register'>";
+        include('signup.php');
+        include('login.php');
+        echo "</div>";
+    }
+}
+
+
+function Submitpage() {
+    echo "<style>header {background: linear-gradient(to right, #036a96, #00BFFF);} </style>";
+    include('submit.php');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
+
+
+
